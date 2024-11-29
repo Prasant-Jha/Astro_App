@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Note: JCenter is deprecated but still needed for some plugins
+        maven { url 'https://plugins.gradle.org/m2/' } // OneSignal plugin repository
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'  // Android Gradle Plugin version
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0'  // Corrected OneSignal Gradle Plugin version
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
